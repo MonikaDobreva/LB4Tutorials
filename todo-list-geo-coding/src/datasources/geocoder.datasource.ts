@@ -4,8 +4,29 @@ import {juggler} from '@loopback/repository';
 const config = {
   name: 'geocoder',
   connector: 'rest',
-  baseURL: '',
-  crud: false
+  options: {
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json',
+    },
+  },
+  operations: [
+    {
+      template: {
+        method: 'GET',
+        url: 'https://geocoding.geo.census.gov/geocoder/locations/onelineaddress',
+        query: {
+          format: '{format=json}',
+          benchmark: 'Public_AR_Current',
+          address: '{address}',
+        },
+        responsePath: '$.result.addressMatches[*].coordinates',
+      },
+      functions: {
+        geocode: ['address'],
+      },
+    },
+  ],
 };
 
 // Observe application's life cycle to disconnect the datasource when

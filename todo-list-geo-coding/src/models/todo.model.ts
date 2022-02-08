@@ -19,6 +19,16 @@ export class Todo extends Entity {
     type: 'string',
   })
   desc?: string;
+  
+  @property({
+    type: 'string',
+  })
+  remindAtAddress?: string; // address,city,zipcode
+
+  @property({
+    type: 'string',
+  })
+  remindAtGeo?: string; // latitude,longitude
 
   @property({
     type: 'boolean',
