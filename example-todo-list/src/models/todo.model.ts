@@ -3,7 +3,8 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {TodoList} from './todo-list.model';
 
 @model()
 export class Todo extends Entity {
@@ -39,8 +40,10 @@ export class Todo extends Entity {
   @property({
     type: 'string',
   })
-  remindAtGeo?: string; // latitude,longitude
+  remindAtGeo?: string;
 
+  @belongsTo(() => TodoList)
+  todoListId: number;
   @property({
     type: 'any',
   })
