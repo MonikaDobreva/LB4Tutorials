@@ -15,6 +15,13 @@ import {ServiceMixin} from '@loopback/service-proxy';
 import morgan from 'morgan';
 import path from 'path';
 import {MySequence} from './sequence';
+import {AuthenticationComponent} from '@loopback/authentication';
+import {
+  JWTAuthenticationComponent,
+  SECURITY_SCHEME_SPEC,
+  UserServiceBindings,
+} from '@loopback/authentication-jwt';
+import {DbDataSource} from './datasources';
 
 export {ApplicationConfig};
 
@@ -48,6 +55,13 @@ export class TodoListApplication extends BootMixin(
     };
 
     this.setupLogging();
+
+    // Mount authentication system
+    this.component(AuthenticationComponent);
+    // Mount jwt component
+    this.component(JWTAuthenticationComponent);
+    // Bind datasource
+    this.dataSource(DbDataSource, UserServiceBindings.DATASOURCE_NAME);
   }
 
   private setupLogging() {
